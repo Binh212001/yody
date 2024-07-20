@@ -21,6 +21,8 @@ public class Product {
     private Double price;
     @ManyToOne
     private Category categories;
+    @ManyToOne
+    private Collection collection;
     @ManyToMany
     @JoinTable(
             name = "product_image",

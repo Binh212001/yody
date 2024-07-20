@@ -1,11 +1,29 @@
 package org.example.yodybe.service;
 
-import org.example.yodybe.form.ProductForm;
+import org.example.yodybe.dto.ProductDto;
+import org.example.yodybe.entity.Product;
 import org.example.yodybe.utils.BaseResponse;
+import org.example.yodybe.utils.PaginationResponse;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.util.List;
 
 public interface ProductService {
     BaseResponse save(String name, String description, Double price, Long categoryId, List<Long> colorIds, List<Long> sizeIds, List<MultipartFile> images);
+
+    PaginationResponse getProductList(Integer page, Integer size, Long collectionId, Long colorId, Long sizeId, String priceRange, String categoryId);
+
+    ProductDto mapToProductDto(Product product);
+
+    BaseResponse getProductById(Long id);
+
+    PaginationResponse getProductsByFilters(Long categoryId,  Long colorId, Long sizeId, int page, int size);
+
+    PaginationResponse getProductsBySearchTerm(String searchTerm, Integer page, Integer size);
+
+    PaginationResponse getProductsByCollection(String collectionId, Integer page, Integer size);
+
+    PaginationResponse getProductsByPriceRange(String minPrice, String maxPrice, Integer page, Integer size);
+
+    BaseResponse update(Long id, String name, String description, Double price, Long categoryId, List<Long> colorIds, List<Long> sizeIds, List<MultipartFile> images);
 }

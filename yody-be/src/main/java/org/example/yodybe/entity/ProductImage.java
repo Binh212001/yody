@@ -21,7 +21,7 @@ public class ProductImage {
 
     @NotNull
     @ManyToOne(fetch = FetchType.LAZY, optional = false)
-    @JoinColumn(name = "color_id", nullable = false)
-    private Image color;
+    @JoinColumn(name = "image_id", nullable = false)
+    private Image image;
 
 }
