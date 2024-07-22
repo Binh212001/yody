@@ -8,10 +8,10 @@ import lombok.Value;
 import java.io.Serializable;
 
 /**
- * DTO for {@link org.example.yodybe.entity.Color}
+ * DTO for {@link org.example.yodybe.entity.Collection}
  */
 @Value
-public class ColorForm implements Serializable {
+public class CollectionForm implements Serializable {
     Long id;
     @NotNull
     @NotEmpty

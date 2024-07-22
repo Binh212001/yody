@@ -110,4 +110,12 @@ public class ProductControllers {
         PaginationResponse paginationResponse = productService.getProductsBySearchTerm(searchTerm, page, size);
         return ResponseEntity.ok(paginationResponse);
     }
+    //GET /products/collection/{id}
+    @GetMapping("/collection/{id}")
+    public ResponseEntity<PaginationResponse> getProductsByCollectionId(@PathVariable Long id,
+                                                                   @RequestParam(value = "page", defaultValue = "0") Integer page,
+                                                                   @RequestParam(value = "size", defaultValue = "20") Integer size) {
+        PaginationResponse paginationResponse = productService.getProductsByCollection(id.toString(), page, size);
+        return ResponseEntity.ok(paginationResponse);
+    }
 }
