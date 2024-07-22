@@ -69,20 +69,36 @@
             </th>
           </tr>
         </thead>
-        <tbody class="bg-white divide-y divide-gray-200"></tbody>
+        <tbody class="bg-white divide-y divide-gray-200">
+          <tr
+            v-if="property == 'size'"
+            v-for="s in sizeStore.size"
+            :key="s.id"
+            :class="{ 'bg-gray-100': s.id % 2 === 0 }"
+          >
+            <td
+              class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500"
+            >
+              {{ s.id }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              {{ s.name }}
+            </td>
+          </tr>
+        </tbody>
       </table>
     </div>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
+import { defineComponent, onMounted, reactive } from "vue";
 import { useRoute } from "vue-router";
 import { Form, Field, ErrorMessage } from "vee-validate";
 import categoryApi from "@/api/Category";
 import sizeApi from "@/api/Size";
 import colorApi from "@/api/Color";
 import { useSizeStore } from "@/stores/SizeStore";
-import { mapActions } from "pinia";
+import { useCategoryStore } from "@/stores/CategoryStore";
 
 export default defineComponent({
   name: "Configuration",
@@ -90,7 +106,9 @@ export default defineComponent({
     const state = reactive({
       showForm: false,
     });
-
+    const sizeStore = useSizeStore();
+    const categoryStore = useCategoryStore();
+    sizeStore.fetchAllsize();
     const handleShowFormSubmit = () => {
       state.showForm = true;
     };
@@ -98,6 +116,15 @@ export default defineComponent({
     const handleHideFormSubmit = () => {
       state.showForm = false;
     };
+
+    onMounted(() => {
+      sizeStore.fetchAllsize().catch((error) => {
+        console.error("Error fetching sizes on mount:", error);
+      });
+      categoryStore.fetchAllCategory().catch((error) => {
+        console.error("Error fetching sizes on mount:", error);
+      });
+    });
 
     const route = useRoute();
     const onSubmit = async (values: any) => {
@@ -134,6 +161,7 @@ export default defineComponent({
       onSubmit,
       validateName,
       property: route.params.property,
+      sizeStore,
     };
   },
   components: {

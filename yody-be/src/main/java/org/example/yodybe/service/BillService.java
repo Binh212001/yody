@@ -1,11 +1,8 @@
 package org.example.yodybe.service;
 
-import org.example.yodybe.dto.SizeDto;
 import org.example.yodybe.entity.Bill;
-import org.example.yodybe.entity.BillDto;
-import org.example.yodybe.entity.Category;
+import org.example.yodybe.dto.BillDto;
 import org.example.yodybe.form.BillForm;
-import org.example.yodybe.form.CategoryForm;
 import org.example.yodybe.utils.BaseResponse;
 import org.example.yodybe.utils.PaginationResponse;
 

@@ -1,5 +1,6 @@
 package org.example.yodybe.service;
 
+import org.example.yodybe.dto.CategoryDto;
 import org.example.yodybe.dto.SizeDto;
 import org.example.yodybe.entity.Category;
 import org.example.yodybe.form.CategoryForm;
@@ -15,13 +16,13 @@ import java.util.stream.Collectors;
 @Service
 public class CategoryServiceImpl implements CategoryService {
     @Autowired
-    private CategoryRepository colorRepository;
+    private CategoryRepository categoryRepository;
 
     @Override
     public BaseResponse getAllCategorys() {
         try {
-            List<Category> categories = colorRepository.findAll();
-            List<SizeDto> categoryDtos = categories.stream().map(this::createCategoryDto).collect(Collectors.toList());
+            List<Category> categories = categoryRepository.findAll();
+            List<CategoryDto> categoryDtos = categories.stream().map(this::createCategoryDto).collect(Collectors.toList());
             return new BaseResponse("Thành công", categoryDtos, 200);
         } catch (Exception e) {
             return new BaseResponse("Thất bại", true, 400);
@@ -31,7 +32,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public BaseResponse getCategoryById(Long id) {
         try {
-            SizeDto categoryDto = createCategoryDto(colorRepository.findById(id).get());
+            CategoryDto categoryDto = createCategoryDto(categoryRepository.findById(id).get());
             return new BaseResponse("Thành công", categoryDto, 200);
         } catch (Exception e) {
             return new BaseResponse("Thất bại", true, 400);
@@ -39,10 +40,10 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public BaseResponse saveCategory(CategoryForm color) {
+    public BaseResponse saveCategory(CategoryForm categoryForm) {
         try {
-            Category entity = mapToEntity(color);
-            colorRepository.save(entity);
+            Category entity = mapToEntity(categoryForm);
+            categoryRepository.save(entity);
             return new BaseResponse("Lưu thành công", true, 200);
         } catch (Exception e) {
             return new BaseResponse("Lưu thất bại", true, 400);
@@ -52,7 +53,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public BaseResponse deleteCategory(Long id) {
         try {
-            colorRepository.deleteById(id);
+            categoryRepository.deleteById(id);
             return new BaseResponse("Xóa thành công", true, 200);
         } catch (Exception e) {
             return new BaseResponse("Xóa thất bại", true, 200);
@@ -62,7 +63,7 @@ public class CategoryServiceImpl implements CategoryService {
     @Override
     public BaseResponse updateCategory(Long id, CategoryForm clCategoryForm) {
         try {
-            Optional<Category> category = colorRepository.findById(id);
+            Optional<Category> category = categoryRepository.findById(id);
             if (category.isEmpty()) {
                 return new BaseResponse("Không tìm thấy màu " + clCategoryForm.getName(), false, 4000);
             }
@@ -74,17 +75,18 @@ public class CategoryServiceImpl implements CategoryService {
     }
 
     @Override
-    public SizeDto createCategoryDto(Category color) {
-        return SizeDto.builder()
-                .id(color.getId())
-                .name(color.getName())
+    public CategoryDto createCategoryDto(Category category) {
+        return CategoryDto.builder()
+                .id(category.getId())
+                .name(category.getName())
+                .slug(category.getSlug())
                 .build();
     }
-
     @Override
-    public Category mapToEntity(CategoryForm colorForm) {
+    public Category mapToEntity(CategoryForm categoryForm) {
         return Category.builder()
-                .name(colorForm.getName())
+                .name(categoryForm.getName())
+                .slug(categoryForm.getSlug())
                 .build();
     }
 }

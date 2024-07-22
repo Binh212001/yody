@@ -17,4 +17,8 @@ public class CategoryForm implements Serializable {
     @NotEmpty
     @NotBlank
     String name;
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    String slug;
 }

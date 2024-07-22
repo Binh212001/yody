@@ -1,8 +1,10 @@
-package org.example.yodybe.entity;
+package org.example.yodybe.dto;
 
 import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Value;
+import org.example.yodybe.entity.Bill;
+import org.example.yodybe.entity.ProductBill;
 
 import java.io.Serializable;
 import java.time.LocalDateTime;

@@ -2,7 +2,7 @@ package org.example.yodybe.service;
 
 import jakarta.transaction.Transactional;
 import org.example.yodybe.entity.Bill;
-import org.example.yodybe.entity.BillDto;
+import org.example.yodybe.dto.BillDto;
 import org.example.yodybe.entity.Product;
 import org.example.yodybe.entity.ProductBill;
 import org.example.yodybe.form.BillForm;
