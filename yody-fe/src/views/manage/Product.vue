@@ -60,9 +60,13 @@
             name="category"
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
-            <option>1</option>
-            <option>1</option>
-            <option>1</option>
+            <option
+              v-for="(item, index) in categoryStore.category"
+              :key="index"
+              :value="item.id"
+            >
+              {{ item.name }}
+            </option>
           </Field>
         </div>
 
@@ -76,7 +80,15 @@
             name="colors"
             multiple
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
-          ></Field>
+          >
+            <option
+              v-for="(item, index) in colorStore.color"
+              :key="index"
+              :value="item.id"
+            >
+              {{ item.name }}
+            </option>
+          </Field>
         </div>
 
         <div>
@@ -90,15 +102,20 @@
             multiple
             class="mt-1 block w-full px-3 py-2 border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
           >
-            <option value="1">1</option>
-            <option value="2">1</option>
+            <option
+              v-for="(item, index) in sizeStore.size"
+              :key="index"
+              :value="item.id"
+            >
+              {{ item.name }}
+            </option>
           </Field>
         </div>
         <div>
           <label for="images" class="block text-sm font-medium text-gray-700"
             >Images</label
           >
-          <Field name="image" type="file" multiple />
+          <Field name="images" type="file" multiple />
         </div>
         <div class="flex justify-end">
           <button
@@ -147,15 +164,49 @@
           </th>
         </tr>
       </thead>
-      <tbody class="bg-white divide-y divide-gray-200"></tbody>
+      <tbody class="bg-white divide-y divide-gray-200">
+        <tr v-for="product in productStore.product" :key="product.id">
+          <td class="px-6 py-4 text-sm font-medium text-gray-900">
+            {{ product.name }}
+          </td>
+          <td class="px-6 py-4 text-sm font-medium text-gray-900">
+            {{ product.description }}
+          </td>
+          <td class="px-6 py-4 text-sm font-medium text-gray-900">
+            {{ product.price }}
+          </td>
+          <td class="px-6 py-4 text-sm font-medium text-gray-900">
+            {{ product.categories?.name }}
+          </td>
+          <td class="px-6 py-4 text-sm font-medium text-gray-900">
+            {{ product.colors?.map((color) => color.name).join(", ") }}
+          </td>
+          <td class="px-6 py-4 text-sm font-medium text-gray-900">
+            {{ product.sizes?.map((size) => size.name).join(", ") }}
+          </td>
+        </tr>
+      </tbody>
     </table>
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, reactive } from "vue";
-import { Icon } from "@iconify/vue";
+import { defineComponent, onMounted, reactive } from "vue";
 import { Form, Field, ErrorMessage } from "vee-validate";
+import { useSizeStore } from "@/stores/SizeStore";
+import { useCategoryStore } from "@/stores/CategoryStore";
+import { useColorStore } from "@/stores/ColorStore";
+import { useProductStore } from "@/stores/ProductStore";
 
+export interface ProductForm {
+  id: number;
+  name: string;
+  description: string;
+  price: number;
+  categories: number;
+  colors: number[];
+  sizes: number[];
+  images: any[];
+}
 export default defineComponent({
   name: "MyComponent",
   setup() {
@@ -171,15 +222,41 @@ export default defineComponent({
     const handleHideFormSubmit = () => {
       state.showForm = false;
     };
-    const handleOk = (val: any) => {
+    const handleOk = (val: ProductForm) => {
       state.showForm = false;
+
+      productStore.createProduct(val).catch((error) => {
+        console.error("Error creating product:", error);
+      });
     };
+    const sizeStore = useSizeStore();
+    const categoryStore = useCategoryStore();
+    const colorStore = useColorStore();
+    const productStore = useProductStore();
+    onMounted(() => {
+      sizeStore.fetchAllsize().catch((error) => {
+        console.error("Error fetching sizes on mount:", error);
+      });
+      categoryStore.fetchAllCategory().catch((error) => {
+        console.error("Error fetching sizes on mount:", error);
+      });
+      colorStore.fetchAllColor().catch((error) => {
+        console.error("Error fetching sizes on mount:", error);
+      });
+      productStore.fetchAllProduct().catch((error) => {
+        console.error("Error fetching sizes on mount:", error);
+      });
+    });
 
     return {
       state,
       handleOk,
       handleShowFormSubmit,
       handleHideFormSubmit,
+      sizeStore,
+      categoryStore,
+      colorStore,
+      productStore,
     };
   },
   components: {

@@ -1,21 +1,38 @@
 <script lang="ts">
-import { defineComponent } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import CustomButton from "@/custom/customButton.vue";
 import Card from "@/components/Card.vue";
 import Slider from "@/components/Slider.vue";
 import sp from "@/assets/img/spnoibat.webp";
+import { useProductStore } from "@/stores/ProductStore";
 
 export default defineComponent({
-  name: "MyComponent",
+  name: "HomePage",
+
+  setup() {
+    const page = ref(0);
+    const productStore = useProductStore();
+    const loadPage = () => {
+      page.value += 1;
+      productStore.fetchProductsByPage(page.value).catch((error) => {
+        console.error("Error fetching products on page change:", error);
+      });
+    };
+    onMounted(() => {
+      productStore.fetchAllProduct().catch((error) => {
+        console.error("Error fetching sizes on mount:", error);
+      });
+    });
+    return {
+      sp,
+      productStore,
+      loadPage,
+    };
+  },
   components: {
     CustomButton,
     Card,
     Slider,
-  },
-  setup() {
-    return {
-      sp,
-    };
   },
 });
 </script>
@@ -63,30 +80,26 @@ export default defineComponent({
         class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 xxl:grid-cols-5 gap-4"
       >
         <Card
-          image="../assets/img/avatar.jpg"
-          displayName="Iphone12"
-          :price="19.99"
-          :colors="['red', 'blue', 'white']"
+          v-for="(item, index) in productStore.product"
+          :item="item"
+          :key="index"
         />
       </div>
       <div class="text-center my-5">
-        <CustomButton
-          text="Xem Them"
-          width="w-[200px]"
-          border="border border-black"
-        />
+        <button class="px-4 py-2 rounded w-[200px] border" @click="loadPage">
+          Xem Them
+        </button>
       </div>
     </div>
-    <div class="pupular">
+    <!-- <div class="pupular">
       <h2 class="font-bold text-center text-3xl">Gợi ý sản phẩm</h2>
       <div
         class="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-5 xxl:grid-cols-5 gap-4"
       >
         <Card
-          image="../assets/img/avatar.jpg"
-          displayName="Iphone12"
-          :price="19.99"
-          :colors="['red', 'blue', 'white']"
+          v-for="(item, index) in productStore.product"
+          :item="item"
+          :key="index"
         />
       </div>
       <div class="text-center my-5">
@@ -96,7 +109,7 @@ export default defineComponent({
           border="border border-black"
         />
       </div>
-    </div>
+    </div> -->
   </div>
 </template>
 

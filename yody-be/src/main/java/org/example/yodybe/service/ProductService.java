@@ -17,7 +17,7 @@ public interface ProductService {
 
     BaseResponse getProductById(Long id);
 
-    PaginationResponse getProductsByFilters(Long categoryId,  Long colorId, Long sizeId, int page, int size);
+    PaginationResponse getProductsByFilters(  Long colorId, Long sizeId, int page, int size, Double minPrice, Double maxPrice, Boolean gender );
 
     PaginationResponse getProductsBySearchTerm(String searchTerm, Integer page, Integer size);
 

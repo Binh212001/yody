@@ -15,13 +15,13 @@ export const useCategoryStore = defineStore("categories", {
       ao: [],
       quan: [],
       sport: [],
-      other: [],
+      orther: [],
     },
     female: {
       ao: [],
       quan: [],
       sport: [],
-      other: [],
+      orther: [],
     },
     baby: {
       ao: [],
@@ -42,16 +42,16 @@ export const useCategoryStore = defineStore("categories", {
         const sportNam = male.filter((item: Category) =>
           item.slug.includes("the-thao")
         );
-        const otherNam = male.filter(
+        const ortherNam = male.filter(
           (item: Category) =>
             !item.slug.includes("quan") &&
             !item.slug.includes("the-thao") &&
-            item.slug.includes("ao")
+            !item.slug.includes("ao")
         );
         this.male.ao = aoNam;
         this.male.quan = quanNam;
         this.male.sport = sportNam;
-        this.male.other = otherNam;
+        this.male.orther = ortherNam;
         const female = data.filter((item: Category) =>
           item.slug.includes("nu")
         );
@@ -64,25 +64,25 @@ export const useCategoryStore = defineStore("categories", {
         const sportNu = female.filter((item: Category) =>
           item.slug.includes("the-thao")
         );
-        const otherNu = female.filter(
+        const ortherNu = female.filter(
           (item: Category) =>
             !item.slug.includes("quan") &&
             !item.slug.includes("the-thao") &&
-            item.slug.includes("ao")
+            !item.slug.includes("ao")
         );
         this.female.ao = aoNu;
         this.female.quan = quanNu;
         this.female.sport = sportNu;
-        this.female.other = otherNu;
+        this.female.orther = ortherNu;
         const baby = data.filter((item: Category) =>
           item.slug.includes("tre-em")
         );
-        const ao = male.filter((item: Category) => item.slug.includes("ao"));
-        const quan = male.filter((item: Category) =>
+        const ao = baby.filter((item: Category) => item.slug.includes("ao"));
+        const quan = baby.filter((item: Category) =>
           item.slug.includes("quan")
         );
-        this.male.ao = ao;
-        this.male.quan = quan;
+        this.baby.ao = ao;
+        this.baby.quan = quan;
       } catch (error) {
         console.log("🚀 ~ fetchUserPreferences ~ error:", error);
       }

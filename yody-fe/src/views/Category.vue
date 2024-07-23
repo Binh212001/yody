@@ -27,10 +27,11 @@
   </div>
 </template>
 <script lang="ts">
-import { defineComponent, ref } from "vue";
+import { defineComponent, onMounted, ref } from "vue";
 import Filter from "@/components/Filter.vue";
 import Card from "@/components/Card.vue";
-
+import { useSizeStore } from "@/stores/SizeStore";
+import { useColorStore } from "@/stores/ColorStore";
 export default defineComponent({
   name: "MyComponent",
   components: {
@@ -39,9 +40,21 @@ export default defineComponent({
   },
   setup() {
     const short = ref("0");
+    const sizeStore = useSizeStore();
+    const colorStore = useColorStore();
+    onMounted(() => {
+      sizeStore.fetchAllsize().catch((error) => {
+        console.error("Error fetching sizes on mount:", error);
+      });
+      colorStore.fetchAllColor().catch((error) => {
+        console.error("Error fetching sizes on mount:", error);
+      });
+    });
 
     return {
       short,
+      sizeStore,
+      colorStore,
     };
   },
 });

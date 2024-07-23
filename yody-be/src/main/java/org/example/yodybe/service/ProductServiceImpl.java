@@ -142,40 +142,37 @@ public class ProductServiceImpl implements ProductService {
     }
 
     @Override
-    public PaginationResponse getProductsByFilters(Long categoryId, Long colorId, Long sizeId, int page, int size) {
+    public PaginationResponse getProductsByFilters(Long colorId, Long sizeId, int page, int size, Double minPrice, Double maxPrice , Boolean gender) {
         try {
-            if (colorId != null && sizeId != null && categoryId != null) {
+            if (colorId != null && sizeId != null && gender!=null) {
                 Optional<Color> color = colorRepository.findById(colorId);
                 Optional<Size> size1 = sizeRepository.findById(sizeId);
-                Optional<Category> category = categoryRepository.findById(categoryId);
-                Page<Product> productPage = productRepository.findByColorsOrCategoriesOrSizes(color.get(), category.get(), size1.get(), PageRequest.of(page, size));
+                Page<Product> productPage = productRepository.findByColorsOrSizesOrGender(color.get(), size1.get(), gender , PageRequest.of(page, size));
                 return paginationResponseHandler(productPage);
-            } else if (colorId != null && sizeId != null) {
+            }
+            else if (colorId != null && sizeId != null ) {
                 Optional<Color> color = colorRepository.findById(colorId);
                 Optional<Size> size1 = sizeRepository.findById(sizeId);
-                Page<Product> productPage = productRepository.findByColorsOrSizes(color.get(), size1.get(), PageRequest.of(page, size));
+                Page<Product> productPage = productRepository.findByColorsOrSizes(color.get(), size1.get(),  PageRequest.of(page, size));
                 return paginationResponseHandler(productPage);
-            } else if (colorId != null && categoryId != null) {
-                Optional<Color> color = colorRepository.findById(colorId);
-                Optional<Category> category = categoryRepository.findById(categoryId);
-                Page<Product> productPage = productRepository.findByColorsOrCategories(color.get(), category.get(), PageRequest.of(page, size));
-                return paginationResponseHandler(productPage);
-            } else if (sizeId != null && categoryId != null) {
+            }
+            else if (sizeId != null && gender != null ) {
                 Optional<Size> size1 = sizeRepository.findById(sizeId);
-                Optional<Category> category = categoryRepository.findById(categoryId);
-                Page<Product> productPage = productRepository.findByCategoriesOrSizes(category.get(), size1.get(), PageRequest.of(page, size));
+                Page<Product> productPage = productRepository.findBySizesOrGender( size1.get(), gender,  PageRequest.of(page, size));
                 return paginationResponseHandler(productPage);
-            } else if (colorId != null) {
+            }
+            else if (colorId != null && gender != null ) {
+                Optional<Color> color = colorRepository.findById(colorId);
+                Page<Product> productPage = productRepository.findByColorsOrGender(color.get(), gender,  PageRequest.of(page, size));
+                return paginationResponseHandler(productPage);
+            }
+            else if (colorId != null) {
                 Optional<Color> color = colorRepository.findById(colorId);
                 Page<Product> productPage = productRepository.findByColors(color.get(), PageRequest.of(page, size));
                 return paginationResponseHandler(productPage);
             } else if (sizeId != null) {
                 Optional<Size> size1 = sizeRepository.findById(sizeId);
                 Page<Product> productPage = productRepository.findBySizes(size1.get(), PageRequest.of(page, size));
-                return paginationResponseHandler(productPage);
-            } else if (categoryId != null) {
-                Optional<Category> category = categoryRepository.findById(categoryId);
-                Page<Product> productPage = productRepository.findByCategories(category.get(), PageRequest.of(page, size));
                 return paginationResponseHandler(productPage);
             } else {
                 Page<Product> productPage = productRepository.findAll(PageRequest.of(page, size));
@@ -189,7 +186,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public PaginationResponse getProductsBySearchTerm(String searchTerm, Integer page, Integer size) {
         try {
-            Page<Product> productPage = productRepository.searchProduct(PageRequest.of(page, size),searchTerm);
+            Page<Product> productPage = productRepository.searchProduct(PageRequest.of(page, size), searchTerm);
             return paginationResponseHandler(productPage);
         } catch (Exception e) {
             return new PaginationResponse("Error getting product list", null, 500, 0, 0, 0);
@@ -209,7 +206,7 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public PaginationResponse getProductsByPriceRange(String minPrice, String maxPrice, Integer page, Integer size) {
         try {
-            Page<Product> productPage = productRepository.getByPrice( PageRequest.of(page, size),minPrice, maxPrice);
+            Page<Product> productPage = productRepository.getByPrice(PageRequest.of(page, size), minPrice, maxPrice);
             return paginationResponseHandler(productPage);
         } catch (Exception e) {
             return new PaginationResponse("Error getting product list", null, 500, 0, 0, 0);
@@ -221,7 +218,7 @@ public class ProductServiceImpl implements ProductService {
         try {
             Optional<Product> entity = productRepository.findById(id);
             if (!entity.isPresent()) {
-            return new BaseResponse("Product is not found", null, 400);
+                return new BaseResponse("Product is not found", null, 400);
             }
             entity.get().setName(name);
             entity.get().setDescription(description);
