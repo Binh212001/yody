@@ -13,4 +13,5 @@ import java.io.Serializable;
 public class ColorDto implements Serializable {
     Long id;
     String name;
+    String cssClass;
 }

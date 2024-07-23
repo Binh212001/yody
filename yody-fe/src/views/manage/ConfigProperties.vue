@@ -85,6 +85,36 @@
               {{ s.name }}
             </td>
           </tr>
+          <tr
+            v-if="property == 'category'"
+            v-for="s in categoryStore.category"
+            :key="s.id"
+            :class="{ 'bg-gray-100': s.id % 2 === 0 }"
+          >
+            <td
+              class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500"
+            >
+              {{ s.id }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              {{ s.name }}
+            </td>
+          </tr>
+          <tr
+            v-if="property == 'color'"
+            v-for="s in colorStore.color"
+            :key="s.id"
+            :class="{ 'bg-gray-100': s.id % 2 === 0 }"
+          >
+            <td
+              class="px-6 py-4 whitespace-nowrap text-sm font-medium text-gray-500"
+            >
+              {{ s.id }}
+            </td>
+            <td class="px-6 py-4 whitespace-nowrap text-sm text-gray-500">
+              {{ s.name }}
+            </td>
+          </tr>
         </tbody>
       </table>
     </div>
@@ -99,6 +129,7 @@ import sizeApi from "@/api/Size";
 import colorApi from "@/api/Color";
 import { useSizeStore } from "@/stores/SizeStore";
 import { useCategoryStore } from "@/stores/CategoryStore";
+import { useColorStore } from "@/stores/ColorStore";
 
 export default defineComponent({
   name: "Configuration",
@@ -108,6 +139,7 @@ export default defineComponent({
     });
     const sizeStore = useSizeStore();
     const categoryStore = useCategoryStore();
+    const colorStore = useColorStore();
     sizeStore.fetchAllsize();
     const handleShowFormSubmit = () => {
       state.showForm = true;
@@ -122,6 +154,9 @@ export default defineComponent({
         console.error("Error fetching sizes on mount:", error);
       });
       categoryStore.fetchAllCategory().catch((error) => {
+        console.error("Error fetching sizes on mount:", error);
+      });
+      colorStore.fetchAllColor().catch((error) => {
         console.error("Error fetching sizes on mount:", error);
       });
     });
@@ -162,6 +197,8 @@ export default defineComponent({
       validateName,
       property: route.params.property,
       sizeStore,
+      categoryStore,
+      colorStore,
     };
   },
   components: {

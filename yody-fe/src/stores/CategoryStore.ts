@@ -1,7 +1,6 @@
 import { defineStore } from "pinia";
 import sizeApi from "@/api/Size";
 import categoryApi from "@/api/Category";
-import { da } from "vuetify/locale";
 
 interface Category {
   name: string;
@@ -34,8 +33,6 @@ export const useCategoryStore = defineStore("categories", {
     async fetchAllCategory() {
       try {
         const { data } = await categoryApi.getAll();
-        console.log(data);
-
         this.category = data;
         const male = data.filter((item: Category) => item.slug.includes("nam"));
         const aoNam = male.filter((item: Category) => item.slug.includes("ao"));

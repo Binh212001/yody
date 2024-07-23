@@ -78,6 +78,7 @@ public class ColorServiceImpl implements ColorService {
         return ColorDto.builder()
                 .id(color.getId())
                 .name(color.getName())
+                .cssClass(color.getCssClass())
                 .build();
     }
 
@@ -85,6 +86,7 @@ public class ColorServiceImpl implements ColorService {
     public Color mapToEntity(ColorForm colorForm) {
         return Color.builder()
                 .name(colorForm.getName())
+                .cssClass(colorForm.getCssClass())
                 .build();
     }
 }

@@ -17,4 +17,9 @@ public class ColorForm implements Serializable {
     @NotEmpty
     @NotBlank
     String name;
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    String cssClass;
+
 }
