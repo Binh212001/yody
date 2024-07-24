@@ -82,6 +82,8 @@ public class BillServiceImpl implements BillService {
                 productBill.setProduct(product.get());
                 productBill.setPrice(b.getPrice());
                 productBill.setQuantity(b.getQuantity());
+                productBill.setColorId(b.getColorId());
+                productBill.setSizeId(b.getSizeId());
                 productBill.setBill(bill);
                 productBillRepository.save(productBill);
             });
@@ -132,6 +134,8 @@ public class BillServiceImpl implements BillService {
                 productBill.setProduct(product.get());
                 productBill.setPrice(b.getPrice());
                 productBill.setQuantity(b.getQuantity());
+                productBill.setColorId(b.getColorId());
+                productBill.setSizeId(b.getSizeId());
                 productBillRepository.save(productBill);
             });
             return new BaseResponse("Lưu thành công", true, 200);
@@ -162,8 +166,6 @@ public class BillServiceImpl implements BillService {
         bill.setPhone(billForm.getPhone());
         bill.setAddressDetail(billForm.getAddressDetail());
         bill.setTotalPrice(billForm.getTotalPrice());
-        bill.setDistrict(billForm.getDistrict());
-        bill.setProvince(billForm.getProvince());
         return bill;
     }
 }

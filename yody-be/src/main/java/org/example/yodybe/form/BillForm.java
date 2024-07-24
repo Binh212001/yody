@@ -26,13 +26,7 @@ public class BillForm implements Serializable {
     @NotBlank
     @NotEmpty
     private String customerName;
-    @NotNull
-    @NotBlank
-    @NotEmpty
     private  String province;
-    @NotNull
-    @NotBlank
-    @NotEmpty
     private String district;
     @NotNull
     @NotBlank

@@ -19,6 +19,8 @@ import java.util.List;
 @NoArgsConstructor
 public class Bill {
     @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "bill_id")
     private Long id;
     private String customerName;
     private  String province;

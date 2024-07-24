@@ -24,4 +24,7 @@ public class ProductBill {
     private Bill bill;
     private Double price;
     private Integer quantity;
+    private Long sizeId;
+    private Long colorId;
+
 }

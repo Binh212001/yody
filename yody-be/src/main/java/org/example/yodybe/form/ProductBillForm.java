@@ -18,7 +18,15 @@ public class ProductBillForm implements Serializable {
     @NotNull
     @NotEmpty
     @NotBlank
-    Long productId;
+        Long productId;
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    Long colorId;
+    @NotNull
+    @NotEmpty
+    @NotBlank
+    Long sizeId;
     @NotNull
     @NotEmpty
     @NotBlank
@@ -26,5 +34,6 @@ public class ProductBillForm implements Serializable {
     @NotNull
     @NotEmpty
     @NotBlank
+
     Integer quantity;
 }
