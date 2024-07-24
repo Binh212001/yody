@@ -32,9 +32,11 @@ export default defineComponent({
 
 <template lang="">
   <header class="border-b-2 relative">
-    <nav class="flex justify-between items-center container m-auto">
+    <nav class="flex justify-between items-center container m-auto py-2">
       <div class="nav-left flex">
-        <img :src="logo" alt="logo" />
+        <RouterLink to="/">
+          <img :src="logo" alt="logo" />
+        </RouterLink>
         <div class="inline-block text-left dropdown">
           <span
             class="inline-flex justify-center w-full px-4 py-2 text-sm font-medium text-gray-700 focus:outline-none hover:border-b-2"
@@ -285,9 +287,11 @@ export default defineComponent({
           <Icon icon="iconamoon:search-thin" />
         </div>
         <div>
-          <RouterLink to="/cart" class="p-2">
-            <Icon icon="solar:cart-5-outline" class="size-6" />
-          </RouterLink>
+          <a-badge count="25" class="flex">
+            <RouterLink to="/cart">
+              <Icon icon="solar:cart-5-outline" class="size-6" />
+            </RouterLink>
+          </a-badge>
         </div>
       </div>
     </nav>

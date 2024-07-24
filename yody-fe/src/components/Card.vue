@@ -1,7 +1,11 @@
 <template>
   <div :class="['max-w-sm rounded overflow-hidden shadow-lg p-4']">
-    <a href="">
-      <img :src="props.item.images[0]" alt="Product Image" class="w-full" />
+    <RouterLink :to="`/product/${props.item.id}`">
+      <img
+        :src="`${URL_IMAGE}${props.item.images[0].imageUrl}`"
+        alt="Product Image"
+        class="w-full"
+      />
       <div class="py-4">
         <div class="font-bold text-xl mb-2">{{ props.item.name }}</div>
         <p class="text-base text-red-500 font-bold">{{ props.item.price }}d</p>
@@ -13,13 +17,15 @@
         >
         </span>
       </div>
-    </a>
+    </RouterLink>
   </div>
 </template>
 
 <script setup lang="ts">
 import { computed } from "vue";
 import cartEmpty from "@/assets/img/tsn6176-tr1-7.jpg";
+import { RouterLink } from "vue-router";
+import { URL_IMAGE } from "@/constant/constant";
 interface Image {
   id: number;
   imageUrl: string;

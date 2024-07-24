@@ -91,25 +91,6 @@ export default defineComponent({
         </button>
       </div>
     </div>
-    <!-- <div class="pupular">
-      <h2 class="font-bold text-center text-3xl">Gợi ý sản phẩm</h2>
-      <div
-        class="grid grid-cols-2 sm:grid-cols-1 md:grid-cols-3 xl:grid-cols-5 xxl:grid-cols-5 gap-4"
-      >
-        <Card
-          v-for="(item, index) in productStore.product"
-          :item="item"
-          :key="index"
-        />
-      </div>
-      <div class="text-center my-5">
-        <CustomButton
-          text="Xem Them"
-          width="w-[200px]"
-          border="border border-black"
-        />
-      </div>
-    </div> -->
   </div>
 </template>
 
