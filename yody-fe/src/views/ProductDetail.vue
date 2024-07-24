@@ -41,7 +41,7 @@ export default defineComponent({
     const refTotalPrice = ref(0);
     const imageSelectRef = ref(0);
     const route = useRoute();
-    const obj = reactive({
+    const obj: any = reactive({
       color: 1,
       size: 1,
       product: null,
@@ -84,6 +84,26 @@ export default defineComponent({
     const validateName = (value: string) => {
       return !value ? "This field is required" : true;
     };
+    const handleAddToCart = (index: number) => {
+      let cart: any = {
+        cartId: Math.random(),
+        ...obj.product,
+        colorId: obj.color,
+        sizeId: obj.size,
+        quantity: quantityRef.value,
+      };
+      let carts: any = localStorage.getItem("carts");
+      if (!carts) {
+        carts = [];
+        carts.push(cart);
+        localStorage.setItem("carts", JSON.stringify(carts));
+      } else {
+        carts = JSON.parse(carts);
+        carts.push(cart);
+        localStorage.setItem("carts", JSON.stringify(carts));
+      }
+    };
+
     const handlePayment = async (val: any) => {
       let bill = {
         ...val,
@@ -100,7 +120,6 @@ export default defineComponent({
       };
       try {
         let { data } = await billApi.create(bill);
-        console.log("🚀 ~ handlePayment ~ data:", data);
       } catch (e) {
         console.error("Error creating bill:", e);
         alert("Error creating bill. Please try again.");
@@ -159,6 +178,7 @@ export default defineComponent({
       checkout4,
       checkout5,
       handlePayment,
+      handleAddToCart,
     };
   },
 });
@@ -290,6 +310,7 @@ export default defineComponent({
             <div class="col-span-10 xl:col-span-8 xxl:col-span-8">
               <button
                 class="btnMinus h-10 rounded-md w-full border border-gray-800 hover:shadow-lg"
+                @click="handleAddToCart"
               >
                 Thêm vào giỏ
               </button>

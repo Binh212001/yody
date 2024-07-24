@@ -4,6 +4,7 @@ import jakarta.validation.constraints.*;
 import lombok.Builder;
 import lombok.Value;
 import org.example.yodybe.entity.Bill;
+import org.example.yodybe.entity.Product;
 import org.example.yodybe.entity.ProductBill;
 
 import java.io.Serializable;
@@ -45,5 +46,5 @@ public class BillDto implements Serializable {
     @NotNull
     LocalDateTime updatedAt;
     @NotNull
-    List<ProductBill> productBills;
+    List<Product> productBills;
 }

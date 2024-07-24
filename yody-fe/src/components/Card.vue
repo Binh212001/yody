@@ -52,8 +52,6 @@ const props = defineProps<{
   item: Product;
 }>();
 
-console.log(props.item);
-
 const colorClass = (color: string) =>
   computed(() => {
     return `bg-${color}-500`;

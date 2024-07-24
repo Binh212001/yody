@@ -20,7 +20,7 @@ import java.util.List;
 public class Bill {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "bill_id")
+    @Column(name = "id_bill")
     private Long id;
     private String customerName;
     private  String province;
@@ -38,5 +38,5 @@ public class Bill {
             joinColumns = @JoinColumn(name = "bill_id"),
             inverseJoinColumns = @JoinColumn(name = "product_id")
     )
-    private List<ProductBill> productBills;
+    private List<Product> productBills;
 }

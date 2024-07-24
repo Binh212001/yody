@@ -16,12 +16,16 @@ export default defineComponent({
         console.error("Error fetching sizes on mount:", error);
       });
     });
+    let cartJson: string | null = localStorage.getItem("carts");
+    let carts: number = JSON.parse(cartJson)?.length;
+    console.log("🚀 ~ setup ~ carts:", carts);
     return {
       categoryStore,
       logo,
       menuMan,
       menuWoman,
       menuChilren,
+      carts,
     };
   },
   components: {
@@ -287,7 +291,7 @@ export default defineComponent({
           <Icon icon="iconamoon:search-thin" />
         </div>
         <div>
-          <a-badge count="25" class="flex">
+          <a-badge :count="carts" class="flex">
             <RouterLink to="/cart">
               <Icon icon="solar:cart-5-outline" class="size-6" />
             </RouterLink>
