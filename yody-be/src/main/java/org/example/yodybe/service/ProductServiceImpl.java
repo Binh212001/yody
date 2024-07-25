@@ -95,6 +95,10 @@ public class ProductServiceImpl implements ProductService {
     @Override
     public PaginationResponse getProductList(Integer page, Integer size, Long collectionId, Long colorId, Long sizeId, String priceRange, String categoryId) {
         try {
+            if(categoryId!=null ){
+                Page<Product> productPage = productRepository.getProductListByCategory(PageRequest.of(page, size),Long.parseLong(categoryId));
+                return paginationResponseHandler(productPage);
+            }
             Page<Product> productPage = productRepository.getProductList(PageRequest.of(page, size));
             return paginationResponseHandler(productPage);
         } catch (Exception e) {

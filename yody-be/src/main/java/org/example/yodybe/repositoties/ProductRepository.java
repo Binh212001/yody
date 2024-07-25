@@ -15,6 +15,8 @@ import org.springframework.stereotype.Repository;
 public interface ProductRepository extends JpaRepository<Product, Long> {
     @Query("select p from Product  p  ")
     Page<Product> getProductList(Pageable pageable);
+    @Query("select p from Product  p  where p.categories.id = :categoryId")
+    Page<Product> getProductListByCategory(Pageable pageable , Long categoryId);
     Page<Product> findByColorsOrSizesOrGender(Color color, Size size, Boolean gender, Pageable pageable);
 
     Page<Product> findByColors(Color color, Pageable pageable);

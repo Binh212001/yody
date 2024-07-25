@@ -17,11 +17,11 @@
       <div
         class="xl:col-span-4 grid xl:grid-cols-4 md:col-span-3 md:grid-cols-3 sm:grid-cols-1"
       >
-        <Card />
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        <Card
+          v-for="(item, index) in productStore.product"
+          :item="item"
+          :key="index"
+        />
       </div>
     </main>
   </div>
@@ -32,6 +32,8 @@ import Filter from "@/components/Filter.vue";
 import Card from "@/components/Card.vue";
 import { useSizeStore } from "@/stores/SizeStore";
 import { useColorStore } from "@/stores/ColorStore";
+import { useProductStore } from "@/stores/ProductStore";
+import { useRoute } from "vue-router";
 export default defineComponent({
   name: "MyComponent",
   components: {
@@ -39,9 +41,12 @@ export default defineComponent({
     Card,
   },
   setup() {
+    const router = useRoute();
+    let { categoryId } = router.params;
     const short = ref("0");
     const sizeStore = useSizeStore();
     const colorStore = useColorStore();
+    const productStore = useProductStore();
     onMounted(() => {
       sizeStore.fetchAllsize().catch((error) => {
         console.error("Error fetching sizes on mount:", error);
@@ -49,12 +54,15 @@ export default defineComponent({
       colorStore.fetchAllColor().catch((error) => {
         console.error("Error fetching sizes on mount:", error);
       });
+      productStore.fetchAllProductByCate(Number(categoryId)).catch((error) => {
+        console.error("Error fetching sizes on mount:", error);
+      });
     });
-
     return {
       short,
       sizeStore,
       colorStore,
+      productStore,
     };
   },
 });

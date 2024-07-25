@@ -12,6 +12,9 @@ const productApi = {
   getAll: async () => {
     return await httpRequest.get(baseURL);
   },
+  getByCat: async (categoryId: number) => {
+    return await httpRequest.get(baseURL + "?categoryId=" + categoryId);
+  },
   loadPage: async (page: number) => {
     return await httpRequest.get(baseURL + "?page=" + page);
   },

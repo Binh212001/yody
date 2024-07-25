@@ -27,7 +27,7 @@ public class ProductControllers {
             @RequestParam(value = "priceRange", required = false) String priceRange,
             @RequestParam(value = "color", required = false) Long colorId,
             @RequestParam(value = "size", required = false) Long sizeId,
-            @RequestParam(value = "category", required = false) String categoryId
+            @RequestParam(value = "categoryId", required = false) String categoryId
     ) {
         PaginationResponse paginationResponse= productService.getProductList(page,size,collectionId,colorId,sizeId,priceRange, categoryId);
         return ResponseEntity.ok(paginationResponse);
