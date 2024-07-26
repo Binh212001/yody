@@ -48,6 +48,21 @@ const router = createRouter({
       name: "management-config",
       component: () => import("@/views/manage/ConfigProperties.vue"),
     },
+    {
+      path: "/management/collection",
+      name: "management-collection",
+      component: () => import("@/views/manage/ConfigProperties.vue"),
+    },
+    {
+      path: "/management/bill/:billId",
+      name: "management-bill-info",
+      component: () => import("@/views/manage/BillInfomation.vue"),
+    },
+    {
+      path: "/management/bill",
+      name: "management-bill",
+      component: () => import("@/views/manage/Bill.vue"),
+    },
   ],
 });
 

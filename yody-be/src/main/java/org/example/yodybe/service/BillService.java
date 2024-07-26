@@ -1,10 +1,14 @@
 package org.example.yodybe.service;
 
+import org.example.yodybe.dto.ProductBillDto;
 import org.example.yodybe.entity.Bill;
 import org.example.yodybe.dto.BillDto;
+import org.example.yodybe.entity.ProductBill;
 import org.example.yodybe.form.BillForm;
 import org.example.yodybe.utils.BaseResponse;
 import org.example.yodybe.utils.PaginationResponse;
+
+import java.util.List;
 
 public interface BillService {
 
@@ -18,6 +22,8 @@ public interface BillService {
     BaseResponse updateBill(Long id, BillForm billForm);
 
     BillDto createBillDto(Bill bill);
+
+    BillDto createBillDto(Bill bill, List<ProductBillDto> p);
 
     Bill mapToEntity(BillForm billForm);
 

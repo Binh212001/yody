@@ -19,6 +19,14 @@ export const useProductStore = defineStore("products", {
         console.log("🚀 ~ fetchUserPreferences ~ error:", error);
       }
     },
+    async fetchProductByFilter(params: any) {
+      try {
+        const { data } = await productApi.filter(params);
+        this.product = data;
+      } catch (error) {
+        console.log("🚀 ~ fetchUserPreferences ~ error:", error);
+      }
+    },
     async fetchAllProductByCate(cacategoryId: number) {
       try {
         const { data } = await productApi.getByCat(cacategoryId);

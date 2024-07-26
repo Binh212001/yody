@@ -46,5 +46,5 @@ public class BillDto implements Serializable {
     @NotNull
     LocalDateTime updatedAt;
     @NotNull
-    List<Product> productBills;
+    List<ProductBillDto> productBills;
 }

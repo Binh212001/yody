@@ -1,6 +1,8 @@
 package org.example.yodybe.service;
 
 import jakarta.transaction.Transactional;
+import org.example.yodybe.dto.ProductBillDto;
+import org.example.yodybe.dto.ProductDto;
 import org.example.yodybe.entity.Bill;
 import org.example.yodybe.dto.BillDto;
 import org.example.yodybe.entity.Product;
@@ -16,8 +18,10 @@ import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
+import java.util.stream.Collectors;
 
 @Service
 public class BillServiceImpl implements BillService {
@@ -42,7 +46,7 @@ public class BillServiceImpl implements BillService {
     @Override
     public PaginationResponse getBillByCustomerName(String name, Integer page, Integer size) {
         try {
-            Page<Bill> bills = billRepository.getBillCus(PageRequest.of(page, size),name );
+            Page<Bill> bills = billRepository.getBillCus(PageRequest.of(page, size), name);
             return paginationResponseHandler(bills);
         } catch (Exception e) {
             return new PaginationResponse("Error getting product list", null, 500, 0, 0, 0);
@@ -60,7 +64,23 @@ public class BillServiceImpl implements BillService {
     @Override
     public BaseResponse getBillById(Long id) {
         try {
-            BillDto billDto = createBillDto(billRepository.findById(id).get());
+            Optional<Bill> bill = billRepository.findById(id);
+            if (bill.isEmpty()) {
+                throw new RuntimeException("Hóa đơn không tồn tại");
+            }
+            List<ProductBill> productBills = productBillRepository.findByBill(bill.get());
+            List<ProductBillDto> productBillDtos = new ArrayList<>();
+            for (ProductBill p : productBills) {
+                Optional<Product> product = productRepository.findById(p.getProduct().getId());
+                if (product.isEmpty()) {
+                    throw new RuntimeException("Sản phẩm không tồn tại");
+                }
+                ProductDto productDto = mapToProductDto(product.get());
+                ProductBillDto productBillDto = mapProductBillDto(p,productDto);
+                productBillDtos.add(productBillDto);
+            }
+
+            BillDto billDto = createBillDto(bill.get(), productBillDtos);
             return new BaseResponse("Thành công", billDto, 200);
         } catch (Exception e) {
             return new BaseResponse("Thất bại", true, 400);
@@ -103,7 +123,7 @@ public class BillServiceImpl implements BillService {
             bill.get().setProductBills(null);
             billRepository.deleteById(id);
             return new BaseResponse("Xóa thành công", true, 200);
-        }catch (RuntimeException e) {
+        } catch (RuntimeException e) {
             return new BaseResponse(e.getMessage(), true, 400);
         }
     }
@@ -152,8 +172,22 @@ public class BillServiceImpl implements BillService {
                 .phone(bill.getPhone())
                 .addressDetail(bill.getAddressDetail())
                 .totalPrice(bill.getTotalPrice())
-                .productBills(bill.getProductBills())
                 .totalPrice(bill.getTotalPrice())
+                .createdAt(bill.getCreatedAt())
+                .updatedAt(bill.getUpdatedAt())
+                .build();
+    }
+
+    @Override
+    public BillDto createBillDto(Bill bill, List<ProductBillDto> p) {
+        return BillDto.builder()
+                .id(bill.getId())
+                .customerName(bill.getCustomerName())
+                .phone(bill.getPhone())
+                .addressDetail(bill.getAddressDetail())
+                .totalPrice(bill.getTotalPrice())
+                .totalPrice(bill.getTotalPrice())
+                .productBills(p)
                 .createdAt(bill.getCreatedAt())
                 .updatedAt(bill.getUpdatedAt())
                 .build();
@@ -167,5 +201,31 @@ public class BillServiceImpl implements BillService {
         bill.setAddressDetail(billForm.getAddressDetail());
         bill.setTotalPrice(billForm.getTotalPrice());
         return bill;
+    }
+
+    public ProductDto mapToProductDto(Product product) {
+        return ProductDto.builder()
+                .id(product.getId())
+                .name(product.getName())
+                .description(product.getDescription())
+                .price(product.getPrice())
+                .categories(product.getCategories())
+                .images(product.getImages())
+                .colors(product.getColors())
+                .sizes(product.getSizes())
+                .collection(product.getCollection())
+                .build();
+
+    }
+    public ProductBillDto mapProductBillDto(ProductBill p, ProductDto pr) {
+        ProductBillDto bill = new ProductBillDto();
+        bill.setId(p.getId());
+        bill.setProduct(pr);
+        bill.setPrice(p.getPrice());
+        bill.setQuantity(p.getQuantity());
+        bill.setColorId(p.getColorId());
+        bill.setSizeId(p.getSizeId());
+        return bill;
+
     }
 }

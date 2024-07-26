@@ -5,6 +5,9 @@ import Card from "@/components/Card.vue";
 import Slider from "@/components/Slider.vue";
 import sp from "@/assets/img/spnoibat.webp";
 import { useProductStore } from "@/stores/ProductStore";
+import cl1 from "@/assets/img/cl1.webp";
+import cl2 from "@/assets/img/cl2.webp";
+import cl3 from "@/assets/img/cl3.webp";
 
 export default defineComponent({
   name: "HomePage",
@@ -27,6 +30,10 @@ export default defineComponent({
       sp,
       productStore,
       loadPage,
+      cl1,
+      cl2,
+      cl3,
+      page,
     };
   },
   components: {
@@ -49,33 +56,42 @@ export default defineComponent({
         :style="{ backgroundImage: 'url(' + sp + ')' }"
         class="h-[500px] centered-background flex flex-col justify-center text-white font-bold"
       >
-        <h3 class="text-center mb-7 text-2xl">YODY SPORT</h3>
-        <a class="text-center underline font-bold" href="">Kham Pha</a>
+        <router-link to="category/3">
+          <h3 class="text-center mb-7 text-2xl">YODY SPORT</h3>
+          <p class="text-center underline font-bold">Kham Pha</p>
+        </router-link>
       </div>
       <div
-        :style="{ backgroundImage: 'url(' + sp + ')' }"
-        class="h-[500px] centered-background"
-      ></div>
+        :style="{ backgroundImage: 'url(' + cl1 + ')' }"
+        class="h-[500px] centered-background flex flex-col justify-center text-white font-bold"
+      >
+        <router-link to="category/3">
+          <h3 class="text-center mb-7 text-2xl">YODY SPORT</h3>
+          <p class="text-center underline font-bold">Kham Pha</p>
+        </router-link>
+      </div>
       <div
-        :style="{ backgroundImage: 'url(' + sp + ')' }"
-        class="h-[500px] centered-background"
-      ></div>
+        :style="{ backgroundImage: 'url(' + cl2 + ')' }"
+        class="h-[500px] centered-background flex flex-col justify-center text-white font-bold"
+      >
+        <router-link to="category/3">
+          <h3 class="text-center mb-7 text-2xl">YODY SPORT</h3>
+          <p class="text-center underline font-bold">Kham Pha</p>
+        </router-link>
+      </div>
       <div
-        :style="{ backgroundImage: 'url(' + sp + ')' }"
-        class="h-[500px] centered-background"
-      ></div>
+        :style="{ backgroundImage: 'url(' + cl3 + ')' }"
+        class="h-[500px] centered-background flex flex-col justify-center text-white font-bold"
+      >
+        <router-link to="category/3">
+          <h3 class="text-center mb-7 text-2xl">YODY SPORT</h3>
+          <p class="text-center underline font-bold">Kham Pha</p>
+        </router-link>
+      </div>
     </div>
     <div class="pupular mt-7">
       <h2 class="font-bold text-center text-3xl">Sản phẩm ưa chuộng</h2>
-      <div
-        class="hidden sm:flex md:flex xl:flex xxl:flex justify-center gap-5 mb-5"
-      >
-        <CustomButton text="Jeans Flex" />
-        <CustomButton text="Jeans Flex" />
-        <CustomButton text="Jeans Flex" />
-        <CustomButton text="Jeans Flex" />
-        <CustomButton text="Jeans Flex" />
-      </div>
+
       <div
         class="grid grid-cols-2 sm:grid-cols-2 md:grid-cols-3 xl:grid-cols-5 xxl:grid-cols-5 gap-4"
       >

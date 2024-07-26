@@ -38,7 +38,6 @@ public class Product {
             inverseJoinColumns = @JoinColumn(name = "color_id")
     )
     private List<Color> colors;
-
     @ManyToMany
     @JoinTable(
             name = "product_size",

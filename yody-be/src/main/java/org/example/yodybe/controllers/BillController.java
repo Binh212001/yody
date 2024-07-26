@@ -27,8 +27,8 @@ public class BillController {
     //GET: /api/bills/{id}
     @GetMapping("/{id}")
     public ResponseEntity<BaseResponse> getBillById(@PathVariable Long id) {
-        BaseResponse paginationResponse= billService.getBillById(id);
-        return ResponseEntity.ok(paginationResponse);
+        BaseResponse baseResponse= billService.getBillById(id);
+        return ResponseEntity.ok(baseResponse);
     }
     //POST: /api/bills
     @PostMapping
